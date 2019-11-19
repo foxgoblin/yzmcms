@@ -21,7 +21,7 @@ class content extends common {
 		$modelid = 1; //默认加载文章模型
 		$catid = 0; //默认加载全部分类
 		$total = $content->total();
-		$page = new page($total, 10);
+		$page = new page($total, get_config('admin_default_pagesize'));
 		$data = $content->order('id DESC')->limit($page->limit())->select();	
 		include $this->admin_tpl('content_list');
 	}
@@ -66,7 +66,7 @@ class content extends common {
 			
 		}
 		$total = $content->where($where)->total();
-		$page = new page($total, 10);
+		$page = new page($total, get_config('admin_default_pagesize'));
 		$data = $content->where($where)->order('id DESC')->limit($page->limit())->select();		
 		include $this->admin_tpl('content_list');
 	}

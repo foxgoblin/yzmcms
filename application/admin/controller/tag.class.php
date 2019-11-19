@@ -11,7 +11,7 @@ class tag extends common {
 	public function init() {
 		$tag = D('tag');
 		$total = $tag->total();
-		$page = new page($total, 10);
+		$page = new page($total, get_config('admin_default_pagesize'));
 		$data = $tag->order('id DESC')->limit($page->limit())->select();		
 		include $this->admin_tpl('tag_list');
 	}

@@ -21,7 +21,7 @@ class module extends common {
 		$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 		$directory = isset($dirs_arr[($page-1)]) ? $dirs_arr[($page-1)] : array();
 		yzm_base::load_sys_class('page','',0);
-		$page = new page($total, 10);
+		$page = new page($total, get_config('admin_default_pagesize'));
 		$data = D('module')->select();
 		foreach($data as $val){
 			$modules[$val['module']] = $val;

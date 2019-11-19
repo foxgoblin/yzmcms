@@ -326,6 +326,7 @@ INSERT INTO `yzm_config` VALUES ('47', 'wx_encodingaeskey', '4', '微信Encoding
 INSERT INTO `yzm_config` VALUES ('48', 'wx_relation_model', '4', '微信关联模型', 'article', '', '', '1');
 INSERT INTO `yzm_config` VALUES ('49', 'baidu_push_token', '0', '百度推送token', '', '', '', '1');
 INSERT INTO `yzm_config` VALUES ('50', 'advertise', '99', '首页广告位', '免费又好用的CMS建站系统，就选YzmCMS!', 'textarea', '', '1');
+INSERT INTO `yzm_config` VALUES ('51', 'admin_default_pagesize', '0', '后台列表页大小', '10', '', '', '1');
 
 
 -- ----------------------------

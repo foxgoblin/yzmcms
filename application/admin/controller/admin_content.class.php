@@ -11,7 +11,7 @@ class admin_content extends common {
 		yzm_base::load_sys_class('page','',0);
 		$member_content = D('member_content');
 		$total = $member_content->total();
-		$page = new page($total, 10);
+		$page = new page($total, get_config('admin_default_pagesize'));
 		$data = $member_content->order('updatetime DESC')->limit($page->limit())->select();		
 		include $this->admin_tpl('member_publish_list');
 	}

@@ -11,7 +11,7 @@ class urlrule extends common {
 	public function init() {
 		$urlrule = D('urlrule');
 		$total = $urlrule->total();
-		$page = new page($total, 10);
+		$page = new page($total, get_config('admin_default_pagesize'));
 		$data = $urlrule->order('urlruleid DESC')->limit($page->limit())->select();	
 		include $this->admin_tpl('urlrule_list');
 	}
