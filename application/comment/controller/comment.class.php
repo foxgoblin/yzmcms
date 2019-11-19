@@ -13,7 +13,7 @@ class comment extends common {
 		$modelinfo = get_modelinfo();
 		$comment = D('comment');
 		$total = $comment->join('yzmcms_comment_data b ON yzmcms_comment.commentid=b.commentid')->total();
-		$page = new page($total, 10);
+		$page = new page($total, get_config('admin_default_pagesize'));
 		$data = $comment->field('yzmcms_comment.*,b.title,b.url')->join('yzmcms_comment_data b ON yzmcms_comment.commentid=b.commentid')->order('id DESC')->limit($page->limit())->select();		
 		include $this->admin_tpl('comment_list');
 	}

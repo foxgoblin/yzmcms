@@ -23,7 +23,7 @@ class member_message extends common{
 	public function init(){ 
 		$message = D('message');
 		$total = $message->total();
-		$page = new page($total, 10);
+		$page = new page($total, get_config('admin_default_pagesize'));
 		$data = $message->order('messageid DESC')->limit($page->limit())->select();			
 		include $this->admin_tpl('message_list');
 	}
@@ -52,7 +52,7 @@ class member_message extends common{
 			}			
 		}
 		$total = $message->where($where)->total();
-		$page = new page($total, 10);
+		$page = new page($total, get_config('admin_default_pagesize'));
 		$data = $message->where($where)->order('messageid DESC')->limit($page->limit())->select();		
 		include $this->admin_tpl('message_list');
 	}	
@@ -106,7 +106,7 @@ class member_message extends common{
 	public function messages_list(){ 
 		$message_group = D('message_group');
 		$total = $message_group->total();
-		$page = new page($total, 10);
+		$page = new page($total, get_config('admin_default_pagesize'));
 		$data = $message_group->order('id DESC')->limit($page->limit())->select();			
 		include $this->admin_tpl('message_group_list');
 	}

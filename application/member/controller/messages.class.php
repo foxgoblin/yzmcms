@@ -74,7 +74,7 @@ class messages extends common{
 		extract($memberinfo);
 		$message = D('message');
 		$total = $message->where(array('send_from' => $username))->total();
-		$page = new page($total, 10);
+		$page = new page($total, get_config('admin_default_pagesize'));
 		$data = $message->where(array('send_from' => $username))->order('messageid DESC')->limit($page->limit())->select();	
 		$pages = '<span class="pageinfo">共'.$total.'条记录</span>'.$page->getfull();
 		include template('member', 'outbox');
@@ -109,7 +109,7 @@ class messages extends common{
 		$message = D('message');
 		//收件箱中只有收件人未删除[未隐藏]的信息
 		$total = $message->where(array('send_to' => $username, 'status' => 1))->total();
-		$page = new page($total, 10);
+		$page = new page($total, get_config('admin_default_pagesize'));
 		$data = $message->where(array('send_to' => $username, 'status' => 1))->order('messageid DESC')->limit($page->limit())->select();	
 		$pages = '<span class="pageinfo">共'.$total.'条记录</span>'.$page->getfull();
 		include template('member', 'inbox');
@@ -127,7 +127,7 @@ class messages extends common{
 		$message_group = D('message_group');
 		$total = $message_group->where(array('groupid' => $groupid, 'status' => '1'))->total(); 
 
-		$page = new page($total,10);
+		$page = new page($total,get_config('admin_default_pagesize'));
 		$data = $message_group->where(array('groupid' => $groupid, 'status' => '1'))->limit($page->limit())->order('id DESC')->select(); 
 
 		$read = array();

@@ -21,7 +21,7 @@ class order extends common{
 	public function init(){ 
 		$order = D('order');
 		$total = $order->total();
-		$page = new page($total, 10);
+		$page = new page($total, get_config('admin_default_pagesize'));
 		$data = $order->order('id DESC')->limit($page->limit())->select();			
 		include $this->admin_tpl('order_list');
 	}
@@ -54,7 +54,7 @@ class order extends common{
 			}			
 		}
 		$total = $order->where($where)->total();
-		$page = new page($total, 10);
+		$page = new page($total, get_config('admin_default_pagesize'));
 		$data = $order->where($where)->order('id DESC')->limit($page->limit())->select();					
 		include $this->admin_tpl('order_list');
 	}

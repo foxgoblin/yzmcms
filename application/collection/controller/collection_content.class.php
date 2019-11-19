@@ -13,7 +13,7 @@ class collection_content extends common {
 		yzm_base::load_sys_class('page','',0);
 		$collection_node = D('collection_node');
 		$total = $collection_node->total();
-		$page = new page($total, 10);
+		$page = new page($total, get_config('admin_default_pagesize'));
 		$data = $collection_node->order('nodeid DESC')->limit($page->limit())->select();		
 		include $this->admin_tpl('collection_node_list');
 	}
@@ -331,7 +331,7 @@ class collection_content extends common {
 		
 		$collection_content = D('collection_content');
 		$total = $collection_content->where($where)->total();
-		$page = new page($total, 10);
+		$page = new page($total, get_config('admin_default_pagesize'));
 		$data = $collection_content->where($where)->order('id DESC')->limit($page->limit())->select();		
 		include $this->admin_tpl('collection_list');
 	}

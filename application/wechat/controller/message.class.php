@@ -13,7 +13,7 @@ class message extends wechat_common{
 		
 		$wechat_message = D('wechat_message');
         $total = $wechat_message->where(array('issystem' => 0))->total();
-		$page = new page($total, 10);
+		$page = new page($total, get_config('admin_default_pagesize'));
 		$data = $wechat_message->where(array('issystem' => 0))->order('id DESC')->limit($page->limit())->select();
 		include $this->admin_tpl('message_list');
     }

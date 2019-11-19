@@ -218,7 +218,7 @@ class member_content extends common{
 		
 		$member_content = D('member_content');
 		$total = $member_content->where(array('userid' =>$userid,'status' =>1))->total();
-		$page = new page($total, 10);
+		$page = new page($total, get_config('admin_default_pagesize'));
 		$res = $member_content->field('checkid,catid,title,inputtime,updatetime')->where(array('userid' =>$userid,'status' =>1))->order('updatetime DESC')->limit($page->limit())->select();
 		$data = array();
 		foreach($res as $val) {
@@ -239,7 +239,7 @@ class member_content extends common{
 		
 		$member_content = D('member_content');
 		$total = $member_content->where(array('userid' =>$userid,'status' =>0))->total();
-		$page = new page($total, 10);
+		$page = new page($total, get_config('admin_default_pagesize'));
 		$res = $member_content->field('checkid,catid,title,inputtime,updatetime,status')->where(array('userid' =>$userid,'status!=' =>1))->order('updatetime DESC')->limit($page->limit())->select();
 		$data = array();
 		foreach($res as $val) {
@@ -284,7 +284,7 @@ class member_content extends common{
 		
 		$favorite = D('favorite');
 		$total = $favorite->where(array('userid' =>$userid))->total();
-		$page = new page($total, 10);
+		$page = new page($total, get_config('admin_default_pagesize'));
 		$data = $favorite->where(array('userid' =>$userid))->order('id DESC')->limit($page->limit())->select();
 		$pages = '<span class="pageinfo">共'.$total.'条记录</span>'.$page->getfull();
 		include template('member', 'favorite');

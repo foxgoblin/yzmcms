@@ -16,7 +16,7 @@ class user extends wechat_common{
 		
 		$wechat_user = D('wechat_user');
 		$total = $wechat_user->total();
-		$page = new page($total, 10);
+		$page = new page($total, get_config('admin_default_pagesize'));
 		$data = $wechat_user->order('wechatid DESC')->limit($page->limit())->select();
 		include $this->admin_tpl('user_list');
     }
@@ -57,7 +57,7 @@ class user extends wechat_common{
 			}			
 		}
 		$total = $wechat_user->where($where)->total();
-		$page = new page($total, 10);
+		$page = new page($total, get_config('admin_default_pagesize'));
 		$data = $wechat_user->where($where)->order('wechatid DESC')->limit($page->limit())->select();		
 		include $this->admin_tpl('user_list');
 	}
