@@ -172,8 +172,9 @@ class collection {
 
 		$patterns = $replace = array();
 		foreach($config as $k=>$v){
-			$patterns[] = '/'.str_replace('/', '\/', $v).'/i';
-			$replace[] = '';
+			$pair = explode('<替换>', $v);
+			$patterns[] = '/'.str_replace('/', '\/', $pair[0]).'/i';
+			$replace[] = isset($pair[1]) ? $pair[1] : '';
 		}
 
 		return trim(preg_replace($patterns, $replace, $html));
