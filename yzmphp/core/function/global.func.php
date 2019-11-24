@@ -616,41 +616,45 @@ function match_img($content){
  * @return string $content 处理后的内容
  */
 function grab_image($content, $targeturl = ''){
-	preg_match_all('/<[img|IMG].*?src=[\'|\"](.*?(?:[\.gif|\.jpg]))[\'|\"].*?[\/]?>/', $content, $img_array); 
-    $img_array = isset($img_array[1]) ? array_unique($img_array[1]) : array();
+	preg_match_all('/<img(?:\s{1,}\S+)*?\ssrc=(\'[^\']+\'|"[^"]+"|[^\s]+).*?>/i', $content, $img_array); 
+    $imgsrc_array = isset($img_array[1]) ? array_unique($img_array[1]) : array();
 	
-	if($img_array) {
+	if($imgsrc_array) {
 		$path =  C('upload_file').'/'.date('Ym/d');
 		$urlpath = SITE_URL.$path;
 		$imgpath =  YZMPHP_PATH.$path;
 		if(!is_dir($imgpath)) @mkdir($imgpath, 0777, true);
 	}
 	
-	foreach($img_array as $key=>$value){
-		$val = $value;		
-		if(strpos($value, 'http') === false){
+	foreach($imgsrc_array as $key=>$value){
+                $value = trim($value, " \t\n\r\0\x0B\"");
+		$val = $value;
+		if(stripos($value, 'https://') !== 0 && stripos($value, 'http://') !== 0){
 			if(!$targeturl) return $content;
-			$value = $targeturl.$value;
+			if($value[0] == '/'){
+				$prefix = substr($targeturl, 0, strpos($targeturl, '/', 8));
+				$value = $prefix.$value;
+			}
+			else{
+				$prefix = substr($targeturl, 0, strrpos($targeturl, '/'));
+				$value = $prefix.$value;
+			}
 		}		
-		$ext = strrchr($value, '.');
+		$ext = strtolower(strrchr($value, '.'));
 		if($ext!='.png' && $ext!='.jpg' && $ext!='.gif' && $ext!='.jpeg') return false;
 		$imgname = date("YmdHis").rand(1,9999).$ext;
 		$filename = $imgpath.'/'.$imgname;
 		$urlname = $urlpath.'/'.$imgname;
-		
-		ob_start();
-		readfile($value);
-		$data = ob_get_contents();
-		ob_end_clean();
-		file_put_contents($filename, $data);
-	 
-		if(is_file($filename)){                         
-			$content = str_replace($val, $urlname, $content);
-		}else{
-			return $content;
+		$data = @file_get_contents($value, false, stream_context_create(array('http'=>array('user_agent'=>'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.87 Safari/537.36','header'=>'Referer: '.$targeturl))));
+		if($data){
+			file_put_contents($filename, $data);
+			if(is_file($filename)){
+				$sub_content = str_replace($imgsrc_array[$key], '"'.$urlname.'"', $img_array[0][$key]);
+				$content = str_replace($img_array[0][$key], $sub_content, $content);
+			}
 		}
 	}
-	return $content;        
+	return $content; 
 }
 
 
